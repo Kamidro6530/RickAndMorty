@@ -50,3 +50,8 @@ fun RickAndMortyComposeTheme(
         content = content
     )
 }
+
+@Composable
+fun TextinDetailCharacter() {
+    
+}

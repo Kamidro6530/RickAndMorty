@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.rickandmortycompose.fragments.MainFragment"
+        android:name="com.example.rickandmortycompose.screens.MainFragment"
         android:label="MainFragment" >
         <action
             android:id="@+id/toCharacterFragment"
@@ -14,6 +14,6 @@
     </fragment>
     <fragment
         android:id="@+id/characterFragment"
-        android:name="com.example.rickandmortycompose.fragments.CharacterFragment"
+        android:name="com.example.rickandmortycompose.screens.CharacterFragment"
         android:label="CharacterFragment" />
 </navigation>
