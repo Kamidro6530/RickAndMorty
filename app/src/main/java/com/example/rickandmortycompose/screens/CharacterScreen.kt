@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
-import com.example.rickandmortycompose.Constans
+import com.example.rickandmortycompose.other.Constans
 import com.example.rickandmortycompose.ui.theme.RickAndMortyComposeTheme
 
 @Composable

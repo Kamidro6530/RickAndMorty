@@ -1,7 +1,8 @@
 package com.example.rickandmortycompose.hilt
 
-import com.example.rickandmortycompose.retrofit.RiMService
-import com.example.rickandmortycompose.screens.Routes
+import androidx.annotation.NonNull
+import com.example.rickandmortycompose.retrofit.CharacterService
+import com.example.rickandmortycompose.retrofit.EpisodeService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,13 +18,24 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRiMApi(): RiMService {
+    fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .baseUrl("https://rickandmortyapi.com/")
             .build()
-            .create(RiMService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCharacterService(@NonNull retrofit: Retrofit) : CharacterService{
+        return retrofit.create(CharacterService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideEpisodeService(@NonNull retrofit: Retrofit) : EpisodeService{
+        return retrofit.create(EpisodeService::class.java)
     }
 
 

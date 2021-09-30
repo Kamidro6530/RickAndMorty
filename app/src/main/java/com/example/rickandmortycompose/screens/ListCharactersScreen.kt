@@ -1,13 +1,5 @@
 package com.example.rickandmortycompose.screens
 
-import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,42 +9,28 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
-import com.example.rickandmortycompose.Constans.Companion.TAG
-import com.example.rickandmortycompose.mvvm.RiMViewModel
 import com.example.rickandmortycompose.retrofit.characters.Character
-import com.example.rickandmortycompose.ui.theme.RickAndMortyComposeTheme
-import com.google.gson.Gson
-import dagger.hilt.android.AndroidEntryPoint
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
-import javax.inject.Inject
+import com.example.rickandmortycompose.viewmodel.CharacterViewModel
 
 
-    @Composable
-    fun ListCharacters(viewModel: RiMViewModel = viewModel(),navController: NavController) {
+@Composable
+    fun ListCharacters(viewModel: CharacterViewModel = viewModel(), navController: NavController) {
         var listOfCharacters: MutableList<Character?> = mutableListOf()
         var list: List<Character>? = listOf()
 
 
 
-
         for (x in 1..32) {
-            list = viewModel.listOfCharacters.value[x]
+            list = viewModel.listOfAllCharacters.value[x]
             list?.forEach { listOfCharacters.add(it) }
 
         }
-        val listTEST =
-            viewModel.listOfCharactersTEST.value//I don't know If i delete this line App no display characters WTF !!!!
+
+            viewModel.listOfAllCharactersMutable.value//I don't know If i delete this line App no display characters WTF !!!!
 
 
         if (list != null) {
@@ -63,21 +41,24 @@ import javax.inject.Inject
     }
 
     @Composable
-    fun ListOfCharacters(list: MutableList<Character?>,navController: NavController) {
+    fun ListOfCharacters(list: MutableList<Character?>, navController: NavController) {
 
         LazyColumn(
             Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+
             items(list) {
-                ItemList(it,navController)
+                ItemCharacterList(it,navController)
             }
+
         }
 
     }
 
     @Composable
-    fun ItemList(character: Character?,navController: NavController) {
+    fun ItemCharacterList(character: Character?, navController: NavController) {
 
 
         Card(
