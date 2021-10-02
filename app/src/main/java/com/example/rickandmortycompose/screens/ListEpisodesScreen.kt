@@ -1,8 +1,5 @@
 package com.example.rickandmortycompose.screens
 
-import android.util.Log
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,19 +13,23 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.rickandmortycompose.other.Constans.Companion.TAG
+import com.example.rickandmortycompose.navigation.Routes
 import com.example.rickandmortycompose.retrofit.episodes.Episode
 import com.example.rickandmortycompose.viewmodel.CharacterViewModel
 import com.example.rickandmortycompose.viewmodel.EpisodeViewModel
 
 @Composable
-fun ListEpisodes(episodeViewModel: EpisodeViewModel = viewModel(),characterViewModel: CharacterViewModel = viewModel(), navController: NavController) {
+fun ListEpisodes(
+    episodeViewModel: EpisodeViewModel = viewModel(),
+    characterViewModel: CharacterViewModel = viewModel(),
+    navController: NavController
+) {
+
     var listOfEpisodes: MutableList<Episode?> = mutableListOf()
     var list: List<Episode>? = listOf()
 
@@ -49,7 +50,7 @@ fun ListEpisodes(episodeViewModel: EpisodeViewModel = viewModel(),characterViewM
 
 
     if (list != null) {
-        ListOfEpisodes(list = listOfEpisodes, navController,characterViewModel)
+        ListOfEpisodes(list = listOfEpisodes, navController, characterViewModel)
     }
 
 
@@ -70,7 +71,7 @@ fun ListOfEpisodes(
             item { ListClassifier(text = "Season $x") }
             items(list) {
                 if (it?.episode.toString().contains("S0$x")) {
-                    ItemEpisodeList(it, navController,characterViewModel)
+                    ItemEpisodeList(it, navController, characterViewModel)
                 }
 
             }
@@ -81,16 +82,18 @@ fun ListOfEpisodes(
 }
 
 @Composable
-fun ItemEpisodeList(episode: Episode?, navController: NavController,characterViewModel: CharacterViewModel) {
-
-
+fun ItemEpisodeList(
+    episode: Episode?,
+    navController: NavController,
+    characterViewModel: CharacterViewModel
+) {
 
 
     var characterNumbers = StringBuilder()
-        //Wydziela numer postaci z adresu url aby móc wysłać go do EpisodeDetail
+    //Wydziela numer postaci z adresu url aby móc wysłać go do EpisodeDetail
     episode?.characters?.forEach {
         val characterNumber = it.split("/")
-      characterNumbers.append("${characterNumber[5]},")
+        characterNumbers.append("${characterNumber[5]},")
 
     }
 

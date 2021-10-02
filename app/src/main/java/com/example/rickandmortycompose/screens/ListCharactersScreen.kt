@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.example.rickandmortycompose.navigation.Routes
 import com.example.rickandmortycompose.retrofit.characters.Character
 import com.example.rickandmortycompose.viewmodel.CharacterViewModel
 

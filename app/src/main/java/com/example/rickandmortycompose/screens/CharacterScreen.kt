@@ -24,6 +24,7 @@ import com.example.rickandmortycompose.ui.theme.RickAndMortyComposeTheme
     origin: String?,
     image: String?,
 ) {
+
         RickAndMortyComposeTheme() {
 
 
