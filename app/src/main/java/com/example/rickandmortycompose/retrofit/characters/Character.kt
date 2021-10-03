@@ -1,5 +1,6 @@
 package com.example.rickandmortycompose.retrofit.characters
 
+import android.location.Location
 import com.google.gson.annotations.SerializedName
 
 data class Character(

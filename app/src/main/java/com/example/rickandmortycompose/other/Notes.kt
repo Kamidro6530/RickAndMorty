@@ -4,10 +4,7 @@ package com.example.rickandmortycompose.other
 //Cele do zrealizowania
 
 //Podstawowe sortowanie Listy
-//Pobieranie jednej postaci (EpisodeDetails)
-//Animacja listy odcinków
-
-//Menu
+//Animacja list
 
 
 //  Rick and Morty Api - https://rickandmortyapi.com/

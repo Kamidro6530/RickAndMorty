@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CharacterViewModel @Inject constructor(private val characterRepository: CharacterRepository) :
     ViewModel() {
-    var listOfCharactersInEpisode: MutableState<MutableList<Character>> =
+    var listOfCharactersInEpisodeOrLocation: MutableState<MutableList<Character>> =
         mutableStateOf(mutableListOf())//List for Episode Details
     var listOfAllCharacters =
         mutableStateOf(arrayOfNulls<List<Character>>(33))//List for Character List
@@ -40,7 +40,7 @@ class CharacterViewModel @Inject constructor(private val characterRepository: Ch
 
         val list = characterRepository.getCurrentCharacters(numbers)
             ?.subscribe {
-                listOfCharactersInEpisode.value = it.toMutableList()
+                listOfCharactersInEpisodeOrLocation.value = it.toMutableList()
             }
     }
 

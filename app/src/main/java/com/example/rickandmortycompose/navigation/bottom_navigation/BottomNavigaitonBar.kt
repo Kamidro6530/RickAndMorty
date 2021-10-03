@@ -14,7 +14,7 @@ import com.example.rickandmortycompose.navigation.bottom_navigation.BottomNaviga
 fun BottomNavigationBar(
     navController: NavController
 ) {
-    val items = listOf(BottomNavigationItem.ListCharacters, BottomNavigationItem.ListEpisodes)
+    val items = listOf(BottomNavigationItem.ListCharacters, BottomNavigationItem.ListEpisodes,BottomNavigationItem.ListLocations)
 
     BottomNavigation(backgroundColor = MaterialTheme.colors.primaryVariant, elevation = 5.dp) {
         items.forEach { item ->

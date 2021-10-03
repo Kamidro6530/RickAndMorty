@@ -5,22 +5,17 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
-import androidx.navigation.compose.rememberNavController
-import com.example.rickandmortycompose.screens.CharacterScreen
-import com.example.rickandmortycompose.screens.EpisodeDetails
-import com.example.rickandmortycompose.screens.ListCharacters
-import com.example.rickandmortycompose.screens.ListEpisodes
-import com.example.rickandmortycompose.ui.theme.RickAndMortyComposeTheme
+import com.example.rickandmortycompose.screens.*
 import com.example.rickandmortycompose.viewmodel.CharacterViewModel
 import com.example.rickandmortycompose.viewmodel.EpisodeViewModel
+import com.example.rickandmortycompose.viewmodel.LocationViewModel
 
 @Composable
-fun Navigation(characterViewModel : CharacterViewModel,episodeViewModel : EpisodeViewModel,navController: NavHostController) {
+fun Navigation(characterViewModel : CharacterViewModel,episodeViewModel : EpisodeViewModel,locationViewModel: LocationViewModel,navController: NavHostController) {
 
         Surface(
             color = MaterialTheme.colors.primary,
@@ -29,11 +24,11 @@ fun Navigation(characterViewModel : CharacterViewModel,episodeViewModel : Episod
 
             NavHost(
                 navController = navController,
-                startDestination = Routes.ListEpisodes.route
+                startDestination = Routes.ListCharacters.route
             ) {
                 composable(Routes.ListCharacters.route) {
 
-                    ListCharacters(characterViewModel, navController)
+                    Characters(characterViewModel, navController)
                 }
                 composable(
                     route = Routes.CharacterDetails.route + "/{name}/{status}/{species}/{gender}/{origin}/{image}",
@@ -58,7 +53,7 @@ fun Navigation(characterViewModel : CharacterViewModel,episodeViewModel : Episod
                 }
 
                 composable(route = Routes.ListEpisodes.route) {
-                    ListEpisodes(episodeViewModel, characterViewModel, navController)
+                    Episodes(episodeViewModel, characterViewModel, navController)
                 }
 
                 composable(
@@ -83,6 +78,30 @@ fun Navigation(characterViewModel : CharacterViewModel,episodeViewModel : Episod
                         navController
                     )
 
+                }
+
+                composable(Routes.ListLocation.route){
+                    Locations(locationViewModel,navController,characterViewModel)
+                }
+
+
+                composable(Routes.LocationDetails.route + "/{name}/{type}/{dimension}/{residents}",
+                arguments = listOf(
+                    navArgument("name"){},
+                    navArgument("type"){},
+                    navArgument("dimension"){},
+                    navArgument("residents"){}
+                )
+                ) { entry ->
+
+                LocationDetails(
+                    name = entry.arguments?.getString("name"),
+                    type = entry.arguments?.getString("type"),
+                    dimension = entry.arguments?.getString("dimension"),
+                    residents = entry.arguments?.getString("residents"),
+                    characterViewModel = characterViewModel,
+                    navController = navController
+                )
                 }
             }
         }

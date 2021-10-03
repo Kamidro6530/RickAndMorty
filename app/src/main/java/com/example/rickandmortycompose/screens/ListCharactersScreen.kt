@@ -19,7 +19,7 @@ import com.example.rickandmortycompose.viewmodel.CharacterViewModel
 
 
 @Composable
-    fun ListCharacters(viewModel: CharacterViewModel = viewModel(), navController: NavController) {
+    fun Characters(viewModel: CharacterViewModel = viewModel(), navController: NavController) {
         var listOfCharacters: MutableList<Character?> = mutableListOf()
         var list: List<Character>? = listOf()
 

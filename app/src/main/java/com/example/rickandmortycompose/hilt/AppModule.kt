@@ -3,6 +3,7 @@ package com.example.rickandmortycompose.hilt
 import androidx.annotation.NonNull
 import com.example.rickandmortycompose.retrofit.CharacterService
 import com.example.rickandmortycompose.retrofit.EpisodeService
+import com.example.rickandmortycompose.retrofit.LocationService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,6 +37,11 @@ object AppModule {
     @Singleton
     fun provideEpisodeService(@NonNull retrofit: Retrofit) : EpisodeService{
         return retrofit.create(EpisodeService::class.java)
+    }
+    @Provides
+    @Singleton
+    fun provideLocationService(@NonNull retrofit: Retrofit) : LocationService{
+        return retrofit.create(LocationService::class.java)
     }
 
 

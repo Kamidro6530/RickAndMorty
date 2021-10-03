@@ -24,17 +24,14 @@ import com.example.rickandmortycompose.viewmodel.CharacterViewModel
 import com.example.rickandmortycompose.viewmodel.EpisodeViewModel
 
 @Composable
-fun ListEpisodes(
+fun Episodes(
     episodeViewModel: EpisodeViewModel = viewModel(),
     characterViewModel: CharacterViewModel = viewModel(),
     navController: NavController
 ) {
 
-    var listOfEpisodes: MutableList<Episode?> = mutableListOf()
+    val listOfEpisodes: MutableList<Episode?> = mutableListOf()
     var list: List<Episode>? = listOf()
-
-
-
 
     for (x in 1..3) {
 
@@ -60,7 +57,8 @@ fun ListEpisodes(
 fun ListOfEpisodes(
     list: MutableList<Episode?>,
     navController: NavController,
-    characterViewModel: CharacterViewModel
+    characterViewModel: CharacterViewModel,
+
 ) {
 
     LazyColumn(
@@ -88,8 +86,7 @@ fun ItemEpisodeList(
     characterViewModel: CharacterViewModel
 ) {
 
-
-    var characterNumbers = StringBuilder()
+    val characterNumbers = StringBuilder()
     //Wydziela numer postaci z adresu url aby móc wysłać go do EpisodeDetail
     episode?.characters?.forEach {
         val characterNumber = it.split("/")
@@ -97,15 +94,16 @@ fun ItemEpisodeList(
 
     }
 
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colors.error)
             .clickable {
-                characterViewModel.listOfCharactersInEpisode.value.clear()
+                characterViewModel.listOfCharactersInEpisodeOrLocation.value.clear()
                 navController.navigate(
-                    Routes.EpisodeDetails.withArgsAndList(
+                    Routes.EpisodeDetails.withArgs(
                         characterNumbers.toString(),
                         episode?.air_date,
                         episode?.created,
