@@ -62,7 +62,7 @@ fun ListOfEpisodes(
 ) {
 
     LazyColumn(
-        Modifier.fillMaxSize(),
+        Modifier.fillMaxSize().padding(bottom = 50.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         for (x in 1..4) {

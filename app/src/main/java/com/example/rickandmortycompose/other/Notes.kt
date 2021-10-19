@@ -3,7 +3,6 @@ package com.example.rickandmortycompose.other
 
 //Cele do zrealizowania
 
-//Podstawowe sortowanie Listy
 //Animacja list
 
 

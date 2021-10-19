@@ -64,7 +64,7 @@ fun ListOfLocations(
 ) {
 
     LazyColumn(
-        Modifier.fillMaxSize(),
+        Modifier.fillMaxSize().padding(bottom = 50.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -97,7 +97,7 @@ fun ItemLocationScreen(
         backgroundColor = MaterialTheme.colors.error,
         shape = MaterialTheme.shapes.small,
         modifier = Modifier
-            .padding(top = 6.dp, bottom = 6.dp, start = 15.dp, end = 15.dp)
+            .padding(top = 6.dp, bottom = 6.dp, start = 60.dp, end = 60.dp)
             .fillMaxWidth()
             .clickable {
                 characterViewModel.listOfCharactersInEpisodeOrLocation.value.clear()
