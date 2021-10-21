@@ -15,9 +15,9 @@ import javax.inject.Inject
 class LocationViewModel @Inject constructor(private val locationRepository: LocationRepository) :
     ViewModel() {
 
-    var listOfLocations = mutableStateOf(arrayOfNulls<List<Location>>(7))
+    var listOfLocations = mutableStateOf(arrayOfNulls<List<Location>>(7))//List for Location List
     var listOfLocationsMutable: MutableState<List<Location>> =
-        mutableStateOf(mutableListOf())//I don't know If i delete this line App no display characters WTF !!!!
+        mutableStateOf(mutableListOf())
 
     init {
         viewModelScope.launch {
@@ -27,7 +27,7 @@ class LocationViewModel @Inject constructor(private val locationRepository: Loca
                 list?.subscribe {
                     listOfLocations.value[number] = it
                     listOfLocationsMutable.value =
-                        it//I don't know If i delete this line App no display characters WTF !!!!
+                        it
                 }
 
 

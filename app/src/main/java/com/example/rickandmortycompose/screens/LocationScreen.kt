@@ -22,7 +22,7 @@ fun LocationDetails(
     dimension: String?,
     residents: String?,
     characterViewModel: CharacterViewModel,
-    navController : NavHostController
+    navController: NavHostController
 ) {
 
     characterViewModel.getCurrentCharacters(residents)
@@ -32,11 +32,11 @@ fun LocationDetails(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row() {
+        Row {
 
         }
         Spacer(modifier = Modifier.padding(10.dp))
-        Row() {
+        Row {
             Text(
                 text = name.toString(),
                 color = MaterialTheme.colors.error,
@@ -47,7 +47,7 @@ fun LocationDetails(
         }
         Spacer(modifier = Modifier.padding(10.dp))
 
-        Row() {
+        Row {
 
             Text(
                 text = type.toString(),
@@ -60,7 +60,7 @@ fun LocationDetails(
 
 
         Spacer(modifier = Modifier.padding(5.dp))
-        Row() {
+        Row {
             Text(
                 text = "Dimension: $dimension",
                 color = MaterialTheme.colors.error,
@@ -69,7 +69,7 @@ fun LocationDetails(
             )
         }
         Spacer(modifier = Modifier.padding(5.dp))
-        Row() {
+        Row {
             Text(
                 text = "Residents in location : ",
                 color = MaterialTheme.colors.error,
@@ -77,15 +77,16 @@ fun LocationDetails(
                 fontSize = 16.sp
             )
         }
-        Row() {
-            Column() {
+        Row {
+            Column {
 
-               Row() {
+                Row {
 
                     LazyColumn(
                         Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally){
-                        items(characterViewModel.listOfCharactersInEpisodeOrLocation.value){
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        items(characterViewModel.listOfCharactersInEpisodeOrLocation.value) {
                             Text(
                                 text = it.name,
                                 color = MaterialTheme.colors.error,
@@ -93,8 +94,20 @@ fun LocationDetails(
                                 fontSize = 14.sp,
                                 modifier = Modifier.clickable {
                                     val image =
-                                        it.image.replace("/","@")//Zamienia znaki aby przesłać je jako argument (Przesyłanie string jako url powoduje błąd)
-                                    navController.navigate(Routes.CharacterDetails.withArgs(it.name,it.status,it.species,it.gender,it.origin.name,image))
+                                        it.image.replace(
+                                            "/",
+                                            "@"
+                                        )//Change char  to send it  as  argument (send string as url causes error)
+                                    navController.navigate(
+                                        Routes.CharacterDetails.withArgs(
+                                            it.name,
+                                            it.status,
+                                            it.species,
+                                            it.gender,
+                                            it.origin.name,
+                                            image
+                                        )
+                                    )
                                 }
                             )
                         }

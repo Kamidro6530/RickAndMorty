@@ -25,12 +25,11 @@ fun EpisodeDetails(
     name: String?,
     characterViewModel: CharacterViewModel,
     navController: NavController
-    ) {
+) {
 
     characterViewModel.getCurrentCharacters(characters)
 
-    RickAndMortyComposeTheme() {
-
+    RickAndMortyComposeTheme {
 
 
         Column(
@@ -38,13 +37,13 @@ fun EpisodeDetails(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row() {
+            Row {
 
             }
             Spacer(modifier = Modifier.padding(10.dp))
-            Row() {
+            Row {
                 Text(
-                    text = "${name}",
+                    text = "$name",
                     color = MaterialTheme.colors.error,
                     style = MaterialTheme.typography.body2,
                     fontSize = 32.sp
@@ -53,7 +52,7 @@ fun EpisodeDetails(
             }
             Spacer(modifier = Modifier.padding(10.dp))
 
-            Row() {
+            Row {
 
                 Text(
                     text = "$episode",
@@ -66,7 +65,7 @@ fun EpisodeDetails(
 
 
             Spacer(modifier = Modifier.padding(5.dp))
-            Row() {
+            Row {
                 Text(
                     text = "Air Date: $air_date",
                     color = MaterialTheme.colors.error,
@@ -75,7 +74,7 @@ fun EpisodeDetails(
                 )
             }
             Spacer(modifier = Modifier.padding(5.dp))
-            Row() {
+            Row {
                 Text(
                     text = "Characters in episode : ",
                     color = MaterialTheme.colors.error,
@@ -83,43 +82,56 @@ fun EpisodeDetails(
                     fontSize = 16.sp
                 )
             }
-            Row() {
-                Column() {
+            Row {
+                Column {
 
-                            Row() {
+                    Row {
 
-                                     LazyColumn(Modifier.fillMaxSize(),
-                                         horizontalAlignment = Alignment.CenterHorizontally){
-                                         items(characterViewModel.listOfCharactersInEpisodeOrLocation.value){
-                                             Text(
-                                                 text = it.name,
-                                                 color = MaterialTheme.colors.error,
-                                                 style = MaterialTheme.typography.body2,
-                                                 fontSize = 14.sp,
-                                                 modifier = Modifier.clickable {
-                                                     val image =
-                                                         it.image.replace("/","@")//Zamienia znaki aby przesłać je jako argument (Przesyłanie string jako url powoduje błąd)
-                                                     navController.navigate(Routes.CharacterDetails.withArgs(it.name,it.status,it.species,it.gender,it.origin.name,image))
-                                                 }
-                                             )
-                                         }
-                                     }
-
+                        LazyColumn(
+                            Modifier.fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            items(characterViewModel.listOfCharactersInEpisodeOrLocation.value) {
+                                Text(
+                                    text = it.name,
+                                    color = MaterialTheme.colors.error,
+                                    style = MaterialTheme.typography.body2,
+                                    fontSize = 14.sp,
+                                    modifier = Modifier.clickable {
+                                        val image =
+                                            it.image.replace(
+                                                "/",
+                                                "@"
+                                            ) //Change char  to send it  as  argument (send string as url causes error)
+                                        navController.navigate(
+                                            Routes.CharacterDetails.withArgs(
+                                                it.name,
+                                                it.status,
+                                                it.species,
+                                                it.gender,
+                                                it.origin.name,
+                                                image
+                                            )
+                                        )
+                                    }
+                                )
                             }
+                        }
 
                     }
+
                 }
-
-
             }
-            Spacer(modifier = Modifier.padding(5.dp))
 
 
         }
-
+        Spacer(modifier = Modifier.padding(5.dp))
 
 
     }
+
+
+}
 
 
 

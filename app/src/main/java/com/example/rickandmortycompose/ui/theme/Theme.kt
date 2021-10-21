@@ -53,5 +53,5 @@ fun RickAndMortyComposeTheme(
 
 @Composable
 fun TextinDetailCharacter() {
-    
+
 }

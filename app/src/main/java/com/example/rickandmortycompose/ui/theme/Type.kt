@@ -10,12 +10,13 @@ import com.example.rickandmortycompose.R
 
 // Set of Material typography styles to start with
 val fonts = FontFamily(
-        Font(R.font.oswald_bold,weight = FontWeight.Bold),
-        Font(R.font.oswald_extrailght,weight = FontWeight.ExtraLight),
-        Font(R.font.oswald_light,weight = FontWeight.Light),
-        Font(R.font.oswald_medium,weight = FontWeight.Medium),
-        Font(R.font.oswald_regular),
-        Font(R.font.oswald_semibold,weight = FontWeight.SemiBold))
+    Font(R.font.oswald_bold, weight = FontWeight.Bold),
+    Font(R.font.oswald_extrailght, weight = FontWeight.ExtraLight),
+    Font(R.font.oswald_light, weight = FontWeight.Light),
+    Font(R.font.oswald_medium, weight = FontWeight.Medium),
+    Font(R.font.oswald_regular),
+    Font(R.font.oswald_semibold, weight = FontWeight.SemiBold)
+)
 val Typography = Typography(
     body1 = TextStyle(
         fontFamily = FontFamily.Default,
@@ -27,16 +28,5 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     )
-    /* Other default text styles to override
-    button = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.W500,
-        fontSize = 14.sp
-    ),
-    caption = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
-    )
-    */
+
 )

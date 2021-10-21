@@ -1,7 +1,6 @@
 package com.example.rickandmortycompose.screens
 
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.rickandmortycompose.navigation.Routes
-import com.example.rickandmortycompose.other.Constans.Companion.TAG
 import com.example.rickandmortycompose.retrofit.locations.Location
 import com.example.rickandmortycompose.viewmodel.CharacterViewModel
 import com.example.rickandmortycompose.viewmodel.LocationViewModel
@@ -31,24 +29,23 @@ fun Locations(
     val listOfLocations: MutableList<Location?> = mutableListOf()
     var list: List<Location>? = listOf()
 
-    for (x in 1..6) {
+    for (x in 1..6)//Get characters from 6 tables
+    {
 
         list = locationViewModel.listOfLocations.value[x]
         list?.forEach {
             listOfLocations.add(it)
-
         }
 
     }
 
-    locationViewModel.listOfLocationsMutable.value//I don't know If i delete this line App no display characters WTF !!!!
+    locationViewModel.listOfLocationsMutable.value
 
 
     if (list != null) {
         ListOfLocations(
             list = listOfLocations,
             navController,
-            locationViewModel,
             characterViewModel
         )
     }
@@ -59,12 +56,13 @@ fun Locations(
 fun ListOfLocations(
     list: MutableList<Location?>,
     navController: NavHostController,
-    locationViewModel: LocationViewModel,
     characterViewModel: CharacterViewModel
 ) {
 
     LazyColumn(
-        Modifier.fillMaxSize().padding(bottom = 50.dp),
+        Modifier
+            .fillMaxSize()
+            .padding(bottom = 50.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -86,7 +84,7 @@ fun ItemLocationScreen(
 
 
     val residentNumbers = StringBuilder()
-    //Wydziela numer postaci z adresu url aby móc wysłać go do EpisodeDetail
+    //Separate number of character  from url adress  to can send it to  EpisodeDetail
     location?.residents?.forEach {
         val residentNumber = it.split("/")
         residentNumbers.append("${residentNumber[5]},")
@@ -118,7 +116,7 @@ fun ItemLocationScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row() {
+            Row {
                 Text(
                     text = location?.name.toString(),
                     Modifier.padding(10.dp),

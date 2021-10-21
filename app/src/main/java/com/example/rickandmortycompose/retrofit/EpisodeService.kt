@@ -8,5 +8,5 @@ import retrofit2.http.Url
 interface EpisodeService {
 
     @GET
-    fun getEpisodes(@Url url : String) : Observable<EpisodeList>
+    fun getEpisodes(@Url url: String): Observable<EpisodeList>
 }

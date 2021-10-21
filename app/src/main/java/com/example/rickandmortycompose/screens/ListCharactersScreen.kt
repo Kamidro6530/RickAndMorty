@@ -28,18 +28,19 @@ import com.example.rickandmortycompose.viewmodel.CharacterViewModel
 @ExperimentalAnimationApi
 @Composable
 fun Characters(viewModel: CharacterViewModel = viewModel(), navController: NavController) {
-    var listOfCharacters: MutableList<Character?> = mutableListOf()
-    var list: List<Character>? = listOf()
+    val listOfCharacters: MutableList<Character?> = mutableListOf()//Main list of characters
+    var list: List<Character>? = listOf() //cache  list of characters
 
 
 
-    for (x in 1..32) {
+    for (x in 1..32)//Get characters from 32 tables
+    {
         list = viewModel.listOfAllCharacters.value[x]
         list?.forEach { listOfCharacters.add(it) }
 
     }
 
-    viewModel.listOfAllCharactersMutable.value//I don't know If i delete this line App no display characters WTF !!!!
+    viewModel.listOfAllCharactersMutable.value
 
 
     if (list != null) {
@@ -56,25 +57,23 @@ fun ListOfCharacters(
     navController: NavController,
     characterViewModel: CharacterViewModel
 ) {
-    Column() {
+    Column {
         Row(modifier = Modifier.padding(bottom = 5.dp)) {
 
-            SearchBar(characterViewModel, list)
-
-
+            SearchBar(characterViewModel, list)//Initialize Search bar
         }
-        Row() {
+        Row {
             LazyColumn(
                 Modifier
                     .fillMaxSize()
                     .padding(bottom = 50.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (characterViewModel.filteredlistOfCharacters.value.size == 0){
+                if (characterViewModel.filteredlistOfCharacters.value.size == 0) {
                     items(list) {
                         ItemCharacterList(it, navController)
                     }
-                }else{
+                } else {
                     items(characterViewModel.filteredlistOfCharacters.value) {
                         ItemCharacterList(it, navController)
                     }
@@ -97,7 +96,7 @@ fun SearchBar(viewModel: CharacterViewModel, list: MutableList<Character?>) {
     }
     Box(contentAlignment = Alignment.Center) {
         TextField(
-            label = { Text(text = "Search", color = MaterialTheme.colors.primaryVariant) },
+            label = { Text(text = "Search", color = Color.Black) },
             value = text,
             onValueChange = {
                 text = it
@@ -109,10 +108,6 @@ fun SearchBar(viewModel: CharacterViewModel, list: MutableList<Character?>) {
                 unfocusedIndicatorColor = MaterialTheme.colors.primary,
                 focusedIndicatorColor = MaterialTheme.colors.primary,
                 disabledIndicatorColor = MaterialTheme.colors.primary
-            ),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Search //Ustawia co może robić przycisk "Enter" na klawiaturze
             ),
             leadingIcon = {
                 Icon(
@@ -140,10 +135,8 @@ fun ItemCharacterList(character: Character?, navController: NavController) {
             .padding(top = 6.dp, bottom = 6.dp, start = 15.dp, end = 15.dp)
             .clickable {
 
-                var image = character?.image?.replace(
-                    "/",
-                    "@"
-                )//Zamienia znaki aby przesłać je jako argument (Przesyłanie string jako url powoduje błąd)
+                val image = character?.image?.replace("/","@")
+                //Change char  to send it  as  argument (send string as url causes error)
 
                 navController.navigate(
                     Routes.CharacterDetails.withArgs(
@@ -165,7 +158,7 @@ fun ItemCharacterList(character: Character?, navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Row() {
+            Row {
                 Image(
                     painter = rememberImagePainter(character?.image),
                     "",

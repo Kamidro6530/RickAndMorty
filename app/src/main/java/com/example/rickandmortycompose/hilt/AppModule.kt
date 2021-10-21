@@ -29,22 +29,21 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCharacterService(@NonNull retrofit: Retrofit) : CharacterService{
+    fun provideCharacterService(@NonNull retrofit: Retrofit): CharacterService {
         return retrofit.create(CharacterService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideEpisodeService(@NonNull retrofit: Retrofit) : EpisodeService{
+    fun provideEpisodeService(@NonNull retrofit: Retrofit): EpisodeService {
         return retrofit.create(EpisodeService::class.java)
     }
+
     @Provides
     @Singleton
-    fun provideLocationService(@NonNull retrofit: Retrofit) : LocationService{
+    fun provideLocationService(@NonNull retrofit: Retrofit): LocationService {
         return retrofit.create(LocationService::class.java)
     }
-
-
 
 
 }

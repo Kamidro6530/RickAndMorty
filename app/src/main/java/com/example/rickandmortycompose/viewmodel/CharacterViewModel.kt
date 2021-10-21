@@ -2,7 +2,6 @@ package com.example.rickandmortycompose.viewmodel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmortycompose.repositories.CharacterRepository
@@ -16,10 +15,13 @@ class CharacterViewModel @Inject constructor(private val characterRepository: Ch
     ViewModel() {
     var listOfCharactersInEpisodeOrLocation: MutableState<MutableList<Character>> =
         mutableStateOf(mutableListOf())//List for Episode Details
-    var listOfAllCharacters =  mutableStateOf(arrayOfNulls<List<Character>>(33))//List for Character List
-    var listOfAllCharactersMutable: MutableState<List<Character>> = mutableStateOf(mutableListOf())//I don't know If i delete this line App no display characters WTF !!!!
+    var listOfAllCharacters =
+        mutableStateOf(arrayOfNulls<List<Character>>(33))//List for Character List
+    var listOfAllCharactersMutable: MutableState<List<Character>> =
+        mutableStateOf(mutableListOf())
 
-    var filteredlistOfCharacters : MutableState<MutableList<Character>> = mutableStateOf(mutableListOf())
+    var filteredlistOfCharacters: MutableState<MutableList<Character>> =
+        mutableStateOf(mutableListOf())//List of filtered characters
 
     init {
         viewModelScope.launch {
@@ -29,7 +31,7 @@ class CharacterViewModel @Inject constructor(private val characterRepository: Ch
                 list?.subscribe {
                     listOfAllCharacters.value[number] = it
                     listOfAllCharactersMutable.value =
-                        it//I don't know If i delete this line App no display characters WTF !!!!
+                        it
                 }
             }
         }

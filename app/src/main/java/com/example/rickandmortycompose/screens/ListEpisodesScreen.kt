@@ -33,7 +33,8 @@ fun Episodes(
     val listOfEpisodes: MutableList<Episode?> = mutableListOf()
     var list: List<Episode>? = listOf()
 
-    for (x in 1..3) {
+    for (x in 1..3)//Get characters from 3 tables
+         {
 
         list = episodeViewModel.listOfEpisodes.value[x]
         list?.forEach {
@@ -59,10 +60,12 @@ fun ListOfEpisodes(
     navController: NavController,
     characterViewModel: CharacterViewModel,
 
-) {
+    ) {
 
     LazyColumn(
-        Modifier.fillMaxSize().padding(bottom = 50.dp),
+        Modifier
+            .fillMaxSize()
+            .padding(bottom = 50.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         for (x in 1..4) {
@@ -87,7 +90,7 @@ fun ItemEpisodeList(
 ) {
 
     val characterNumbers = StringBuilder()
-    //Wydziela numer postaci z adresu url aby móc wysłać go do EpisodeDetail
+    //Separate number of character  from url adress  to can send it to  EpisodeDetail
     episode?.characters?.forEach {
         val characterNumber = it.split("/")
         characterNumbers.append("${characterNumber[5]},")

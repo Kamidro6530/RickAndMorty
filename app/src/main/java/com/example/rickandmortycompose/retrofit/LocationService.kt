@@ -8,5 +8,5 @@ import retrofit2.http.Url
 interface LocationService {
 
     @GET
-    fun getLocations(@Url url : String) : Observable<LocationList>
+    fun getLocations(@Url url: String): Observable<LocationList>
 }

@@ -19,7 +19,7 @@ class CharacterRepository @Inject constructor(private val characterService: Char
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(CharacterList::results)
-                .flatMapIterable { it -> listOf(it) }
+                .flatMapIterable { listOf(it) }
 
 
         return data
@@ -32,7 +32,7 @@ class CharacterRepository @Inject constructor(private val characterService: Char
             characterService.getCurrentCharacters("/api/character/${numbers}")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .flatMapIterable { it -> listOf(it) }
+                .flatMapIterable { listOf(it) }
 
 
 
