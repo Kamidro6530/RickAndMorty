@@ -2,16 +2,17 @@ package com.example.rickandmortycompose.retrofit
 
 import com.example.rickandmortycompose.retrofit.characters.Character
 import com.example.rickandmortycompose.retrofit.characters.CharacterList
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Url
 
 interface CharacterService {
 
     @GET
-    fun getCharacters(@Url url: String): Observable<CharacterList>
+    suspend fun getCharacters(@Url url: String): Response<CharacterList>
 
     @GET
-    fun getCurrentCharacters(@Url url: String): Observable<List<Character>>
+   suspend fun getCurrentCharacters(@Url url: String): Response<List<Character>>
 
 }

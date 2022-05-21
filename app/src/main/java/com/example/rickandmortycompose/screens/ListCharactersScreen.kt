@@ -1,12 +1,12 @@
 package com.example.rickandmortycompose.screens
 
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -14,8 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -28,24 +26,13 @@ import com.example.rickandmortycompose.viewmodel.CharacterViewModel
 @ExperimentalAnimationApi
 @Composable
 fun Characters(viewModel: CharacterViewModel = viewModel(), navController: NavController) {
-    val listOfCharacters: MutableList<Character?> = mutableListOf()//Main list of characters
-    var list: List<Character>? = listOf() //cache  list of characters
+    val listOfCharacters= viewModel.listOfAllCharacters.collectAsState()//Main list of characters
+    val filteredList = viewModel.filteredlistOfCharacters.collectAsState()//Filtered list of characters
+
+        Log.d("TEST", "CharactersListScreen: ${viewModel.listOfAllCharacters.value.size} ")
 
 
-
-    for (x in 1..32)//Get characters from 32 tables
-    {
-        list = viewModel.listOfAllCharacters.value[x]
-        list?.forEach { listOfCharacters.add(it) }
-
-    }
-
-    viewModel.listOfAllCharactersMutable.value
-
-
-    if (list != null) {
-        ListOfCharacters(list = listOfCharacters, navController, viewModel)
-    }
+    ListOfCharacters(list = listOfCharacters,filteredList, navController, viewModel)
 
 
 }
@@ -53,7 +40,8 @@ fun Characters(viewModel: CharacterViewModel = viewModel(), navController: NavCo
 @ExperimentalAnimationApi
 @Composable
 fun ListOfCharacters(
-    list: MutableList<Character?>,
+    list: State<MutableList<Character>>,
+    filteredList :  State<MutableList<Character>>,
     navController: NavController,
     characterViewModel: CharacterViewModel
 ) {
@@ -69,8 +57,11 @@ fun ListOfCharacters(
                     .padding(bottom = 50.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (characterViewModel.filteredlistOfCharacters.value.size == 0) {
-                    items(list) {
+
+
+
+                if (filteredList.value.isEmpty()) {
+                    items(characterViewModel.listOfAllCharacters.value) {
                         ItemCharacterList(it, navController)
                     }
                 } else {
@@ -89,7 +80,7 @@ fun ListOfCharacters(
 
 
 @Composable
-fun SearchBar(viewModel: CharacterViewModel, list: MutableList<Character?>) {
+fun SearchBar(viewModel: CharacterViewModel, list: State<MutableList<Character>>) {
     var text by remember {
         mutableStateOf("")
 
@@ -100,7 +91,7 @@ fun SearchBar(viewModel: CharacterViewModel, list: MutableList<Character?>) {
             value = text,
             onValueChange = {
                 text = it
-                viewModel.searchCharacter(text, list.toList() as List<Character>)
+                viewModel.searchCharacter(text, list.value)
             },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = MaterialTheme.colors.primary,
@@ -135,7 +126,7 @@ fun ItemCharacterList(character: Character?, navController: NavController) {
             .padding(top = 6.dp, bottom = 6.dp, start = 15.dp, end = 15.dp)
             .clickable {
 
-                val image = character?.image?.replace("/","@")
+                val image = character?.image?.replace("/", "@")
                 //Change char  to send it  as  argument (send string as url causes error)
 
                 navController.navigate(

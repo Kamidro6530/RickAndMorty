@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -15,6 +16,9 @@ import androidx.navigation.NavController
 import com.example.rickandmortycompose.navigation.Routes
 import com.example.rickandmortycompose.ui.theme.RickAndMortyComposeTheme
 import com.example.rickandmortycompose.viewmodel.CharacterViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun EpisodeDetails(
@@ -26,8 +30,10 @@ fun EpisodeDetails(
     characterViewModel: CharacterViewModel,
     navController: NavController
 ) {
+        SideEffect {
+            CoroutineScope(Dispatchers.IO).launch { characterViewModel.getCurrentCharacters(characters) }
+        }
 
-    characterViewModel.getCurrentCharacters(characters)
 
     RickAndMortyComposeTheme {
 
@@ -89,7 +95,8 @@ fun EpisodeDetails(
 
                         LazyColumn(
                             Modifier.fillMaxSize(),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            contentPadding = PaddingValues(bottom = 15.dp)
                         ) {
                             items(characterViewModel.listOfCharactersInEpisodeOrLocation.value) {
                                 Text(

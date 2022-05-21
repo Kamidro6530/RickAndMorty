@@ -4,12 +4,13 @@ import androidx.annotation.NonNull
 import com.example.rickandmortycompose.retrofit.CharacterService
 import com.example.rickandmortycompose.retrofit.EpisodeService
 import com.example.rickandmortycompose.retrofit.LocationService
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
@@ -22,7 +23,7 @@ object AppModule {
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .baseUrl("https://rickandmortyapi.com/")
             .build()
     }

@@ -1,59 +1,67 @@
 package com.example.rickandmortycompose.viewmodel
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import android.location.Location
+import android.util.Log
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.rickandmortycompose.other.Constans.Companion.TAG
 import com.example.rickandmortycompose.repositories.CharacterRepository
 import com.example.rickandmortycompose.retrofit.characters.Character
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CharacterViewModel @Inject constructor(private val characterRepository: CharacterRepository) :
     ViewModel() {
-    var listOfCharactersInEpisodeOrLocation: MutableState<MutableList<Character>> =
-        mutableStateOf(mutableListOf())//List for Episode Details
-    var listOfAllCharacters =
-        mutableStateOf(arrayOfNulls<List<Character>>(33))//List for Character List
-    var listOfAllCharactersMutable: MutableState<List<Character>> =
-        mutableStateOf(mutableListOf())
+   private var _listOfCharactersInEpisodeOrLocation = MutableStateFlow<MutableList<Character>>(mutableStateListOf<Character>())
+     val listOfCharactersInEpisodeOrLocation = _listOfCharactersInEpisodeOrLocation //List for Episode Details
+   private var _listOfAllCharacters = MutableStateFlow<MutableList<Character>> (mutableStateListOf<Character>() )
+    val listOfAllCharacters = _listOfAllCharacters.asStateFlow()
 
-    var filteredlistOfCharacters: MutableState<MutableList<Character>> =
-        mutableStateOf(mutableListOf())//List of filtered characters
+   private var _filteredlistOfCharacters = MutableStateFlow<MutableList<Character>>(mutableStateListOf<Character>())
+    var filteredlistOfCharacters = _filteredlistOfCharacters
 
     init {
         viewModelScope.launch {
-            for (number in 1..32) {
 
-                val list = characterRepository.getAllCharacters(number)
-                list?.subscribe {
-                    listOfAllCharacters.value[number] = it
-                    listOfAllCharactersMutable.value =
-                        it
-                }
-            }
+                 characterRepository.getAllCharacters().collect {
+                     _listOfAllCharacters.value.addAll(it)
+                 }
+
+
         }
 
 
     }
 
-    fun getCurrentCharacters(numbers: String?) {
+    suspend fun getCurrentCharacters(numbers: String?){
 
-        val list = characterRepository.getCurrentCharacters(numbers)
-            ?.subscribe {
-                listOfCharactersInEpisodeOrLocation.value = it.toMutableList()
-            }
+      characterRepository.getCurrentCharacters(numbers).collect{
+          if (it != null) {
+              listOfCharactersInEpisodeOrLocation.value = it as MutableList<Character>
+          }
+
+      }
+
     }
 
-    fun searchCharacter(name: String, list: List<Character>) {
+
+
+    fun searchCharacter(name: String, list: MutableList<Character>) {
+        Log.d(TAG, "without filter: ${list.size}")
         list.filter {
             it.name.lowercase().contains(name)
         }.let { filtered -> filteredlistOfCharacters.value = filtered.toMutableList() }
+        Log.d(TAG, "with filter: ${filteredlistOfCharacters.value.size}")
     }
 
 }
+
+
 
 
 

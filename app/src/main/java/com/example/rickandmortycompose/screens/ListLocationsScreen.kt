@@ -18,6 +18,8 @@ import com.example.rickandmortycompose.navigation.Routes
 import com.example.rickandmortycompose.retrofit.locations.Location
 import com.example.rickandmortycompose.viewmodel.CharacterViewModel
 import com.example.rickandmortycompose.viewmodel.LocationViewModel
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 @Composable
 fun Locations(
@@ -26,35 +28,21 @@ fun Locations(
     characterViewModel: CharacterViewModel
 ) {
 
-    val listOfLocations: MutableList<Location?> = mutableListOf()
-    var list: List<Location>? = listOf()
-
-    for (x in 1..6)//Get characters from 6 tables
-    {
-
-        list = locationViewModel.listOfLocations.value[x]
-        list?.forEach {
-            listOfLocations.add(it)
-        }
-
-    }
-
-    locationViewModel.listOfLocationsMutable.value
+    val listOfLocations: StateFlow<MutableList<Location>> = locationViewModel.listOfLocations.asStateFlow()
 
 
-    if (list != null) {
-        ListOfLocations(
-            list = listOfLocations,
-            navController,
-            characterViewModel
-        )
-    }
+
+
+
+    ListOfLocations(list = listOfLocations,navController,characterViewModel)
+
+
 }
 
 
 @Composable
 fun ListOfLocations(
-    list: MutableList<Location?>,
+    list: StateFlow<MutableList<Location>>,
     navController: NavHostController,
     characterViewModel: CharacterViewModel
 ) {
@@ -66,7 +54,7 @@ fun ListOfLocations(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        items(list) {
+        items(list.value) {
             ItemLocationScreen(location = it, navController, characterViewModel)
         }
 

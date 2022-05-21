@@ -22,6 +22,8 @@ import com.example.rickandmortycompose.navigation.Routes
 import com.example.rickandmortycompose.retrofit.episodes.Episode
 import com.example.rickandmortycompose.viewmodel.CharacterViewModel
 import com.example.rickandmortycompose.viewmodel.EpisodeViewModel
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 @Composable
 fun Episodes(
@@ -30,33 +32,17 @@ fun Episodes(
     navController: NavController
 ) {
 
-    val listOfEpisodes: MutableList<Episode?> = mutableListOf()
-    var list: List<Episode>? = listOf()
+    val listOfEpisodes = episodeViewModel.listOfEpisodes.asStateFlow()
 
-    for (x in 1..3)//Get characters from 3 tables
-         {
-
-        list = episodeViewModel.listOfEpisodes.value[x]
-        list?.forEach {
-            listOfEpisodes.add(it)
-
-        }
-
-    }
-
-    episodeViewModel.listOfEpisodesMutable.value//I don't know If i delete this line App no display characters WTF !!!!
-
-
-    if (list != null) {
         ListOfEpisodes(list = listOfEpisodes, navController, characterViewModel)
-    }
+
 
 
 }
 
 @Composable
 fun ListOfEpisodes(
-    list: MutableList<Episode?>,
+    list: StateFlow<MutableList<Episode>>,
     navController: NavController,
     characterViewModel: CharacterViewModel,
 
@@ -70,8 +56,8 @@ fun ListOfEpisodes(
     ) {
         for (x in 1..4) {
             item { ListClassifier(text = "Season $x") }
-            items(list) {
-                if (it?.episode.toString().contains("S0$x")) {
+            items(list.value) {
+                if (it.episode.contains("S0$x")) {
                     ItemEpisodeList(it, navController, characterViewModel)
                 }
 

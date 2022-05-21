@@ -1,43 +1,47 @@
 package com.example.rickandmortycompose.repositories
 
+import android.util.Log
 import com.example.rickandmortycompose.retrofit.CharacterService
 import com.example.rickandmortycompose.retrofit.characters.Character
-import com.example.rickandmortycompose.retrofit.characters.CharacterList
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import retrofit2.Response
 import javax.inject.Inject
 
 
 class CharacterRepository @Inject constructor(private val characterService: CharacterService) {
 
+    suspend fun getAllCharacters(): Flow<List<Character>> {
 
-    fun getAllCharacters(number: Int): Observable<List<Character>>? {
+            return flow {
 
-        val data: Observable<List<Character>>? =
-            characterService.getCharacters("/api/character/?page=${number}")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(CharacterList::results)
-                .flatMapIterable { listOf(it) }
+                    for (number in 1..32) {
+                        val data = characterService.getCharacters("/api/character/?page=${number}")
+                        emit(data.body()!!.results)
+                    }
 
-
-        return data
+            }.flowOn(Dispatchers.Default)
 
     }
 
-    fun getCurrentCharacters(numbers: String?): Observable<List<Character>>? {
 
-        val data =
-            characterService.getCurrentCharacters("/api/character/${numbers}")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMapIterable { listOf(it) }
+   suspend fun getCurrentCharacters(numbers: String?): Flow<List<Character>?> {
 
+       return flow {
+           val data2 = characterService.getCurrentCharacters("/api/character/${numbers}")
+                   emit(data2.body())
 
-
-        return data
+       }.flowOn(Dispatchers.IO)
 
 
-    }
+
+
+
+   }
+
 }
